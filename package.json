@@ -1,0 +1,6 @@
+{
+    "scripts": {
+      "dev": "concurrently \"npm run dev --prefix my-frontend\" \"nodemon my-backend/index.js\""
+    }
+  }
+  
