@@ -1,26 +1,40 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import { PORT, mongoDBURL } from './config.js';  // Import from config.js
+import booksRoute from './routes/booksRoute.js';
+import authRoute from './routes/authRoutes.js';
+import addToCartRoute from './routes/addToCartRoute.js'
+
 
 const app = express();
-const PORT = 5000;
 
+// Middleware
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
-const products = [
-  { id: 1, name: 'HP Laptops', price: '$999', image: 'https://images.unsplash.com/photo-1612838818789-8e9689e59b08' },
-  { id: 2, name: 'Smartphone', price: '$499', image: 'https://images.unsplash.com/photo-1604079112971-8b34f07b3952' },
-  { id: 3, name: 'Headphones', price: '$199', image: 'https://images.unsplash.com/photo-1612223428664-423e2404ebdd' },
-  { id: 4, name: 'Smartwatch', price: '$129', image: 'https://images.unsplash.com/photo-1593642634441-87b6c56f20a7' },
-];
+// Routes
+app.use('/books', booksRoute);
+app.use('/auth', authRoute);
+app.use('/cart',addToCartRoute)
 
+// Debugging log
+console.log('PORT:', PORT);
+console.log('MongoDB URL:', mongoDBURL);
 
-// Get products list
-app.get('/products', (req, res) => {
-  res.json(products);
-});
+// Connect to MongoDB
+mongoose
+  .connect(mongoDBURL)
+  .then(() => {
+    console.log('App connected to database');
+    app.listen(PORT, () => {
+      console.log(`App is listening on port: ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log('MongoDB connection error:', error);
+  });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  return res.status(200).send('Welcome to the MERN Stack Tutorial');
 });

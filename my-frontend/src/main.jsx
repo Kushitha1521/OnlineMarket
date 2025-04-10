@@ -1,22 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import Navbar from './component/navbar.jsx'
-import Footer from './component/Footer.jsx'
-import FeaturedCards from './component/FeatureedCard.jsx'
-import CategorySection from './component/CategorySection.jsx'
-import PaymentAndSponsors from './component/PaymentAndSponsor.jsx'
+import React from 'react';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import './index.css';
+import App from './App.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Navbar/>
-    <FeaturedCards/>
-    <App />
-    <CategorySection/>
-    <PaymentAndSponsors/>
-    <Footer/>
-    
-    
-  </StrictMode>,
-)
+    <BrowserRouter>
+      <App />
+      
+    </BrowserRouter>
+  </StrictMode>
+);
